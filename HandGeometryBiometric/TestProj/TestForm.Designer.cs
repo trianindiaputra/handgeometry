@@ -41,7 +41,7 @@
             // 
             // pictureBoxOriginal
             // 
-            this.pictureBoxOriginal.Location = new System.Drawing.Point(13, 13);
+            this.pictureBoxOriginal.Location = new System.Drawing.Point(12, 526);
             this.pictureBoxOriginal.Name = "pictureBoxOriginal";
             this.pictureBoxOriginal.Size = new System.Drawing.Size(300, 300);
             this.pictureBoxOriginal.TabIndex = 0;
@@ -49,7 +49,7 @@
             // 
             // pictureBoxGray
             // 
-            this.pictureBoxGray.Location = new System.Drawing.Point(319, 13);
+            this.pictureBoxGray.Location = new System.Drawing.Point(624, 526);
             this.pictureBoxGray.Name = "pictureBoxGray";
             this.pictureBoxGray.Size = new System.Drawing.Size(300, 300);
             this.pictureBoxGray.TabIndex = 0;
@@ -57,15 +57,15 @@
             // 
             // pictureBoxBinary
             // 
-            this.pictureBoxBinary.Location = new System.Drawing.Point(13, 319);
+            this.pictureBoxBinary.Location = new System.Drawing.Point(12, 11);
             this.pictureBoxBinary.Name = "pictureBoxBinary";
-            this.pictureBoxBinary.Size = new System.Drawing.Size(300, 300);
+            this.pictureBoxBinary.Size = new System.Drawing.Size(1399, 509);
             this.pictureBoxBinary.TabIndex = 0;
             this.pictureBoxBinary.TabStop = false;
             // 
             // pictureBoxContour
             // 
-            this.pictureBoxContour.Location = new System.Drawing.Point(319, 319);
+            this.pictureBoxContour.Location = new System.Drawing.Point(318, 526);
             this.pictureBoxContour.Name = "pictureBoxContour";
             this.pictureBoxContour.Size = new System.Drawing.Size(300, 300);
             this.pictureBoxContour.TabIndex = 0;
@@ -73,7 +73,7 @@
             // 
             // buttonGo
             // 
-            this.buttonGo.Location = new System.Drawing.Point(280, 623);
+            this.buttonGo.Location = new System.Drawing.Point(1166, 596);
             this.buttonGo.Name = "buttonGo";
             this.buttonGo.Size = new System.Drawing.Size(75, 23);
             this.buttonGo.TabIndex = 1;
@@ -85,7 +85,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(634, 658);
+            this.ClientSize = new System.Drawing.Size(1423, 838);
             this.Controls.Add(this.buttonGo);
             this.Controls.Add(this.pictureBoxContour);
             this.Controls.Add(this.pictureBoxGray);
