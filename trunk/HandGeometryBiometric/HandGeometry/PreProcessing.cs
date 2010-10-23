@@ -83,5 +83,161 @@ namespace HandGeometry
             Image<Gray, Byte> cannyEdges = inputImage.Canny(cannyThreshold, cannyThresholdLinking);
             return cannyEdges;
         }
+
+        public static List<Point> FindContours(Image<Gray, Byte> image)
+        {
+            List<Point> contours = new List<Point>();
+
+            Point startPoint = new Point();
+            for (int i = 0; i < image.Width; i++)
+            {
+                if (image[image.Height - 1, i].Equals(new Gray(255)))
+                {
+                    startPoint.X = i;
+                    startPoint.Y = image.Height - 1;
+                    contours.Add(startPoint);
+                    break;
+                }
+            }
+
+            List<Point> neighbours = FindNeighbours(image, startPoint);
+            while (neighbours.Count != 0)
+            {
+                if (neighbours.Count == 1)
+                {
+                    if (contours.Contains(neighbours[0]) == false)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        contours.Add(neighbours[0]);                        
+                        startPoint = neighbours[0];
+                        neighbours = FindNeighbours(image, startPoint);
+                    }
+                }
+                else
+                {
+                    List<Point> newNeighbours = new List<Point>();
+                    foreach (Point p in neighbours)
+                    {
+                        if (contours.Contains(p) == false)
+                        {
+                            newNeighbours.Add(p);
+                        }
+                    }
+
+                    if (newNeighbours.Count != 0)
+                    {
+                        if (newNeighbours.Count == 1)
+                        {
+                            contours.Add(newNeighbours[0]);
+                            startPoint = newNeighbours[0];
+                            neighbours = FindNeighbours(image, startPoint);
+                        }
+                        else
+                        {
+                            Point nearestNeighbour = newNeighbours[0];
+                            for (int i = 1; i < newNeighbours.Count; i++)
+                            {
+                                if (MeasureManhattanDistance(startPoint, newNeighbours[i]) < MeasureManhattanDistance(startPoint, nearestNeighbour))
+                                {
+                                    nearestNeighbour = newNeighbours[i];
+                                }
+                            }
+
+                            contours.Add(nearestNeighbour);
+                            startPoint = nearestNeighbour;
+                            neighbours = FindNeighbours(image, startPoint);
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return contours;
+        }
+        private static List<Point> FindNeighbours(Image<Gray, Byte> image, Point startPoint)
+        {
+            List<Point> neighbours = new List<Point>();
+
+            for (int i = -1; i < 2; i++)
+            {
+                for (int j = -1; j < 2; j++)
+                {
+                    try
+                    {
+                        if (image[startPoint.Y + i, startPoint.X + j].Equals(new Gray(255)))
+                        {
+                            neighbours.Add(new Point(startPoint.X + j, startPoint.Y + i));
+                        }
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+
+            return neighbours;
+        }
+
+        private static int MeasureManhattanDistance(Point p1, Point p2)
+        {
+            return Math.Abs(p2.X - p1.X) + Math.Abs(p2.Y - p1.Y);
+        }
+
+        private static double MeasureDistance(Point p1, Point p2)
+        {
+            return Math.Sqrt(1.0 * ((p2.X - p1.X) * (p2.X - p1.X) + (p2.Y - p1.Y) * (p2.Y - p1.Y)));
+        }
+
+        public static List<int> BuildContoursGraph(List<Point> contours)
+        {
+            List<int> contoursGraph = new List<int>();
+            Point startPoint = contours[0];
+
+            foreach (Point p in contours)
+            {
+                contoursGraph.Add(MeasureManhattanDistance(startPoint, p));
+                
+            }
+
+            return contoursGraph;
+        }
+
+        public static Image<Bgr, Byte> DrawContoursGraph(List<int> contoursGraph)
+        {
+            Image<Bgr, Byte> image = new Image<Bgr, byte>(contoursGraph.Count - 1, contoursGraph.Max(), new Bgr(255, 255, 255));
+            
+            for (int i = 0; i < contoursGraph.Count; i++)
+            {
+                image.Draw(new Rectangle(new Point(i, contoursGraph[i]), new Size(0, 0)), new Bgr(0, 0, 255), 1);
+            }
+
+            return image;
+        }
+
+        //public static List<int> FindExtremes(List<int> contoursGraph)
+        //{
+        //    List<int> extremes = new List<int>();
+
+        //    for (int i = 1; i < contoursGraph.Count - 1; i++)
+        //    {
+        //        int temp1 = contoursGraph[i] - contoursGraph[i - 1];
+        //        int temp2 = contoursGraph[i + 1] - contoursGraph[i];
+        //        if (temp1 * temp2 < 0)
+        //        {
+        //            CheckExtreme(i, contoursGraph);
+        //        }
+        //    }
+        //}
+
+        //private static bool CheckExtreme(int candidate, List<int> contoursGraph)
+        //{
+
+        //}
     }
 }
