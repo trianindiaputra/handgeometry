@@ -220,24 +220,55 @@ namespace HandGeometry
             return image;
         }
 
-        //public static List<int> FindExtremes(List<int> contoursGraph)
-        //{
-        //    List<int> extremes = new List<int>();
+        public static List<List<int>> FindExtremes(List<int> contoursGraph)
+        {
+            List<List<int>> extremes = new List<List<int>>();
+            int idFlag = 0;
 
-        //    for (int i = 1; i < contoursGraph.Count - 1; i++)
-        //    {
-        //        int temp1 = contoursGraph[i] - contoursGraph[i - 1];
-        //        int temp2 = contoursGraph[i + 1] - contoursGraph[i];
-        //        if (temp1 * temp2 < 0)
-        //        {
-        //            CheckExtreme(i, contoursGraph);
-        //        }
-        //    }
-        //}
+            for (int i = 1; i < contoursGraph.Count - 1; i++)
+            {
+                int temp1 = contoursGraph[i] - contoursGraph[i - 1];
+                int temp2 = contoursGraph[i + 1] - contoursGraph[i];
+                if (temp1 * temp2 < 0)
+                {
+                    CheckExtreme(i, contoursGraph);
+                }
+            }
 
-        //private static bool CheckExtreme(int candidate, List<int> contoursGraph)
-        //{
+            return extremes;
+        }
 
-        //}
+        private static int CheckExtreme(int candidate, List<int> contoursGraph)
+        {
+            try
+            {
+                if (contoursGraph[candidate] > contoursGraph[candidate - 1]
+                    && contoursGraph[candidate] < contoursGraph[candidate + 1])
+                {
+                    return 1;
+                }
+                else if (contoursGraph[candidate] > contoursGraph[candidate - 1]
+                    && contoursGraph[candidate] < contoursGraph[candidate + 1])
+                {
+                    return -1;
+                }
+                else
+                {
+                }
+            }
+            catch
+            {
+                if (candidate == 0)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+
+            return 0;
+        }
     }
 }
